@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoilSight</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🌱 SoilSight</h1>
+        <p class="subtitle">AI-Based Soil Moisture Classification</p>
+
+        <div class="upload-box">
+
+            <input type="file" id="imageInput" accept="image/*">
+
+            <div id="previewContainer">
+                <img id="preview" alt="Soil preview">
+            </div>
+
+            <button id="analyzeBtn">
+                Analyze Soil
+            </button>
+
+            <div id="loading">
+                Analyzing...
+            </div>
+
+            <div id="result">
+                <h2>Result</h2>
+                <p id="status"></p>
+                <p id="confidence"></p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
