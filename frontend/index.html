@@ -3,44 +3,329 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SoilSight</title>
+    <title>SoilSight | AI-Based Soil Moisture Classification for Farmers</title>
+    <meta name="description" content="AI-powered soil moisture classification for farmers. Upload soil image to identify Dry, Moderate, or Wet status with tailored irrigation guidance.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="home-body">
 
-    <div class="container">
+    <!-- Navigation Bar -->
+    <header class="app-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🌱</span>
+                <span class="logo-text">Soil<span>Sight</span></span>
+            </a>
 
-        <h1>🌱 SoilSight</h1>
-        <p class="subtitle">AI-Based Soil Moisture Classification</p>
+            <nav class="nav-menu">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#moisture-guide">Soil Guide</a>
+                <a href="#benefits">Why SoilSight</a>
+            </nav>
 
-        <div class="upload-box">
+            <div class="header-right" id="navAuthSection">
+                <!-- Shown when NOT logged in -->
+                <div class="auth-buttons-group" id="guestNav">
+                    <a href="login.html" class="btn btn-outline btn-sm">Log In</a>
+                    <a href="register.html" class="btn btn-primary btn-sm">Register</a>
+                </div>
 
-            <input type="file" id="imageInput" accept="image/*">
+                <!-- Shown when logged in -->
+                <div class="auth-buttons-group" id="userNav" style="display: none;">
+                    <a href="profile.html" class="farmer-pill">
+                        <span class="farmer-avatar">👨‍🌾</span>
+                        <span id="homeFarmerName">Farmer Profile</span>
+                    </a>
+                    <a href="analysis.html" class="btn btn-primary btn-sm">🌱 Analyse Soil</a>
+                </div>
+            </div>
+        </div>
+    </header>
 
-            <div id="previewContainer">
-                <img id="preview" alt="Soil preview">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-container">
+            
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    <span>AI-Powered Agriculture for Farmers</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    Smart Soil Moisture, Type & Health Analysis for <span>Healthier Crops</span>
+                </h1>
+                
+                <p class="hero-subtitle">
+                    SoilSight helps farmers know the exact moisture level, soil classification, and health status of their fields in seconds. Simply upload a soil photo to detect <strong>Moisture</strong>, identify <strong>Soil Type</strong>, and rate <strong>Soil Health</strong> (Good / Moderate / Poor) with instant crop and irrigation recommendations.
+                </p>
+
+                <!-- Hero Action Buttons: Login and Register -->
+                <div class="hero-cta-group" id="heroCtaGroup">
+                    <a href="register.html" class="btn btn-primary btn-lg pulse-btn">
+                        <span class="btn-icon">🌾</span> Register as Farmer
+                    </a>
+                    <a href="login.html" class="btn btn-secondary-outline btn-lg">
+                        <span class="btn-icon">🔑</span> Farmer Login
+                    </a>
+                </div>
+
+                <!-- Logged in quick access -->
+                <div class="hero-cta-group" id="heroUserGroup" style="display: none;">
+                    <a href="profile.html" class="btn btn-primary btn-lg">
+                        <span class="btn-icon">👨‍🌾</span> Open Farmer Dashboard
+                    </a>
+                    <a href="analysis.html" class="btn btn-secondary-outline btn-lg">
+                        <span class="btn-icon">🌱</span> Run Soil Diagnostic
+                    </a>
+                </div>
+
+                <!-- Key Metric Highlights -->
+                <div class="hero-stats">
+                    <div class="stat-pill">
+                        <span class="stat-num">3 Pillars</span>
+                        <span class="stat-desc">Moisture, Type & Health</span>
+                    </div>
+                    <div class="stat-pill">
+                        <span class="stat-num">&lt; 3s</span>
+                        <span class="stat-desc">Multimodal AI Diagnostic</span>
+                    </div>
+                    <div class="stat-pill">
+                        <span class="stat-num">100%</span>
+                        <span class="stat-desc">Free for All Farmers</span>
+                    </div>
+                </div>
+
             </div>
 
-            <button id="analyzeBtn">
-                Analyze Soil
-            </button>
-
-            <div id="loading">
-                Analyzing...
-            </div>
-
-            <div id="result">
-                <h2>Result</h2>
-                <p id="status"></p>
-                <p id="confidence"></p>
+            <!-- Hero Image Banner -->
+            <div class="hero-visual">
+                <div class="image-wrapper">
+                    <img src="assets/hero_banner.jpg" alt="SoilSight Smart Soil Analysis" class="hero-img">
+                    <div class="floating-tech-card">
+                        <div class="tech-icon">🔬</div>
+                        <div>
+                            <strong>Deep Learning Vision</strong>
+                            <p>Trained on thousands of real soil textures</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
+    </section>
 
-    </div>
+    <!-- How It Works Section (3 Simple Steps) -->
+    <section class="section how-it-works-section" id="how-it-works">
+        <div class="section-container">
+            
+            <div class="section-header text-center">
+                <span class="section-tag">Simple 3-Step Flow</span>
+                <h2>How SoilSight Works for You</h2>
+                <p>Designed for farmers to get immediate actionable soil insights without expensive laboratory equipment.</p>
+            </div>
 
-    <script src="script.js"></script>
+            <div class="steps-grid">
+                
+                <div class="step-card">
+                    <div class="step-number">01</div>
+                    <div class="step-icon">📝</div>
+                    <h3>Register Your Account</h3>
+                    <p>Enter your name, farm location, acreage, and crops grown to set up your dedicated farmer profile.</p>
+                    <a href="register.html" class="step-link">Register Now →</a>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">02</div>
+                    <div class="step-icon">🔑</div>
+                    <h3>Log In & Access Profile</h3>
+                    <p>Log in with your credentials to open your personal dashboard showing your farm details and test history.</p>
+                    <a href="login.html" class="step-link">Go to Login →</a>
+                </div>
+
+                <div class="step-card featured-step">
+                    <div class="step-number">03</div>
+                    <div class="step-icon">🌱</div>
+                    <h3>Click "Analyse Your Soil"</h3>
+                    <p>In your profile, click "Analyse Your Soil", upload a clear soil picture, and immediately receive moisture classification and irrigation advice.</p>
+                    <a href="profile.html" class="step-link">Explore Dashboard →</a>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Soil Moisture Classification Guide -->
+    <section class="section moisture-guide-section" id="moisture-guide">
+        <div class="section-container">
+            
+            <div class="section-header text-center">
+                <span class="section-tag">Agronomic Intelligence</span>
+                <h2>Understanding Soil Moisture States</h2>
+                <p>Maintaining the right moisture balance is critical for crop growth and water conservation.</p>
+            </div>
+
+            <div class="guide-cards-grid">
+                
+                <div class="guide-status-card card-dry">
+                    <div class="status-indicator-tag tag-dry">Low Moisture</div>
+                    <div class="guide-icon-large">☀️</div>
+                    <h3>Dry Soil</h3>
+                    <p class="status-desc">Soil has cracked or powdery texture with minimal capillary water.</p>
+                    <ul class="guide-points">
+                        <li>⚠️ Roots cannot absorb nitrogen or phosphorus</li>
+                        <li>⚠️ Plants begin wilting and slowing cell division</li>
+                        <li><strong>Irrigation Action:</strong> Irrigate promptly via drip or furrow watering to restore moisture.</li>
+                    </ul>
+                </div>
+
+                <div class="guide-status-card card-moderate">
+                    <div class="status-indicator-tag tag-moderate">Optimal Zone</div>
+                    <div class="guide-icon-large">🌱</div>
+                    <h3>Moderate Soil</h3>
+                    <p class="status-desc">Dark, crumbly, and cohesive soil with ideal pore space for air and water.</p>
+                    <ul class="guide-points">
+                        <li>✅ Maximum nutrient absorption and root vitality</li>
+                        <li>✅ Healthy soil microbes decompose organic matter</li>
+                        <li><strong>Irrigation Action:</strong> No watering required today. Maintain mulching to lock moisture.</li>
+                    </ul>
+                </div>
+
+                <div class="guide-status-card card-wet">
+                    <div class="status-indicator-tag tag-wet">Saturated</div>
+                    <div class="guide-icon-large">💧</div>
+                    <h3>Wet Soil</h3>
+                    <p class="status-desc">Waterlogged or muddy soil with pore spaces completely filled with water.</p>
+                    <ul class="guide-points">
+                        <li>⚠️ Lack of oxygen suffocates crop root systems</li>
+                        <li>⚠️ Elevated risk of fungal damping-off and root rot</li>
+                        <li><strong>Irrigation Action:</strong> Pause irrigation immediately and clear surface drainage ditches.</li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section features-section" id="features">
+        <div class="section-container">
+            
+            <div class="section-header text-center">
+                <span class="section-tag">Key Features</span>
+                <h2>Built for Precision Agriculture</h2>
+                <p>Everything a farmer needs to make data-driven watering decisions.</p>
+            </div>
+
+            <div class="features-grid">
+                
+                <div class="feature-box">
+                    <div class="feature-icon">📸</div>
+                    <h3>Easy Image Upload</h3>
+                    <p>Simply take a picture of your field topsoil with your smartphone and upload it directly into SoilSight.</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Deep Learning Accuracy</h3>
+                    <p>Powered by a Convolutional Neural Network trained on soil datasets across diverse moisture gradations.</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon">👨‍🌾</div>
+                    <h3>Farmer Profile & History</h3>
+                    <p>Every analysis is logged in your farmer profile so you can track soil moisture changes over time.</p>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon">💡</div>
+                    <h3>Actionable Guidance</h3>
+                    <p>Receive clear irrigation steps tailored specifically to your soil's Dry, Moderate, or Wet status.</p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Call to Action Banner -->
+    <section class="section cta-section">
+        <div class="section-container">
+            <div class="cta-banner-card">
+                <h2>Ready to Test Your Field Soil Moisture?</h2>
+                <p>Register as a farmer today, create your farm profile, and start analyzing your soil with AI.</p>
+                <div class="banner-buttons">
+                    <a href="register.html" class="btn btn-primary btn-lg">Create Farmer Account</a>
+                    <a href="login.html" class="btn btn-outline btn-lg">Log In with Existing Account</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <a href="index.html" class="logo">
+                    <span class="logo-icon">🌱</span>
+                    <span class="logo-text">Soil<span>Sight</span></span>
+                </a>
+                <p class="footer-tagline">AI-Powered Soil Moisture Classification for Modern Farmers.</p>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Navigation</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="register.html">Farmer Registration</a></li>
+                    <li><a href="login.html">Farmer Login</a></li>
+                    <li><a href="profile.html">Farmer Profile</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Diagnostics</h4>
+                <ul class="footer-links">
+                    <li><a href="analysis.html">Soil Analysis Tool</a></li>
+                    <li><a href="#moisture-guide">Dry Soil Management</a></li>
+                    <li><a href="#moisture-guide">Optimal Moderate Soil</a></li>
+                    <li><a href="#moisture-guide">Waterlogged Soil Drainage</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 SoilSight. Developed for Farmers and Agricultural Soil Health Management.</p>
+        </div>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Check if user is logged in
+            const currentFarmer = typeof getCurrentFarmer === "function" ? getCurrentFarmer() : null;
+            
+            const guestNav = document.getElementById("guestNav");
+            const userNav = document.getElementById("userNav");
+            const heroCtaGroup = document.getElementById("heroCtaGroup");
+            const heroUserGroup = document.getElementById("heroUserGroup");
+            const homeFarmerName = document.getElementById("homeFarmerName");
+
+            if (currentFarmer) {
+                if (guestNav) guestNav.style.display = "none";
+                if (userNav) userNav.style.display = "flex";
+                if (heroCtaGroup) heroCtaGroup.style.display = "none";
+                if (heroUserGroup) heroUserGroup.style.display = "flex";
+                if (homeFarmerName) homeFarmerName.textContent = currentFarmer.name;
+            }
+        });
+    </script>
 
 </body>
 </html>

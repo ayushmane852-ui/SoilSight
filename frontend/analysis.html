@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Soil Diagnostic (Moisture, Type & Health) | SoilSight</title>
+    <meta name="description" content="AI Soil Moisture, Soil Type, and Soil Health diagnosis powered by deep learning and Gemini Multimodal AI.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="analysis-page-body">
+
+    <!-- Top Navigation Bar for Farmer -->
+    <header class="app-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🌱</span>
+                <span class="logo-text">Soil<span>Sight</span></span>
+            </a>
+            <div class="header-right">
+                <div class="ai-status-pill" id="aiStatusPill" title="AI Diagnostic Engine Status">
+                    <span class="ai-status-dot"></span>
+                    <span id="aiStatusText">AI Vision Ready</span>
+                </div>
+                <a href="profile.html" class="btn btn-outline btn-sm">
+                    ← Farmer Profile
+                </a>
+                <div class="farmer-pill" id="farmerPill" style="display: none;">
+                    <span class="farmer-avatar">🌾</span>
+                    <span id="farmerNameNav">Farmer</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="analysis-main-container">
+        <div class="container">
+
+            <div class="analysis-header-row">
+                <div>
+                    <div class="analysis-header-badge">✨ Multimodal Precision AI</div>
+                    <h1>🌱 Complete Soil Diagnostic</h1>
+                    <p class="subtitle">Upload a field soil photo to instantly analyze <strong>Moisture Level</strong>, <strong>Soil Type</strong>, and <strong>Soil Health</strong> (Good / Moderate / Poor) with crop recommendations.</p>
+                </div>
+            </div>
+
+            <!-- Upload Box -->
+            <div class="upload-box" id="analysisCard">
+                <!-- Dropzone / File Picker -->
+                <div class="dropzone" id="dropzone">
+                    <div class="dropzone-icon">📷</div>
+                    <label for="imageInput" class="custom-file-label">
+                        <span>Click to choose photo</span> or drag & drop here
+                    </label>
+                    <p class="dropzone-hint">Clear natural light photo of your field soil (JPG, PNG, WEBP)</p>
+                    <input type="file" id="imageInput" accept="image/*">
+                </div>
+
+                <div id="previewContainer" style="display: none;">
+                    <div class="preview-wrapper">
+                        <img id="preview" alt="Soil preview">
+                        <button id="changeImageBtn" class="change-img-btn" type="button" title="Change photo">Change Photo ↺</button>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button id="analyzeBtn" class="btn btn-primary btn-lg" disabled>
+                        <span class="btn-text">🔬 Run Full Soil Diagnostic</span>
+                    </button>
+                </div>
+
+                <div id="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <div class="loading-copy">
+                        <h4>Analyzing Soil Sample...</h4>
+                        <p>Processing moisture texture with trained model & inspecting soil type & health...</p>
+                    </div>
+                </div>
+
+                <!-- Comprehensive Multi-Pillar Diagnostic Result -->
+                <div id="result" style="display: none;">
+                    
+                    <!-- Result Card Top Header -->
+                    <div class="result-card-header">
+                        <div>
+                            <div class="result-badge-row">
+                                <span class="engine-badge" id="aiEngineBadge">🤖 Gemini Multimodal AI</span>
+                                <span class="health-badge" id="healthBadge">Health: GOOD</span>
+                            </div>
+                            <h2>Field Soil Diagnostic Report</h2>
+                            <p class="result-timestamp" id="reportTimestamp">Generated Just Now</p>
+                        </div>
+                        <div class="health-gauge-box">
+                            <div class="health-gauge-circle" id="healthGaugeCircle">
+                                <span class="gauge-score" id="gaugeScoreVal">85%</span>
+                                <span class="gauge-label">Health Score</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3 Pillars Grid: Moisture | Soil Type | Soil Health -->
+                    <div class="diagnostic-pillars-grid">
+                        
+                        <!-- Pillar 1: Soil Moisture -->
+                        <div class="pillar-card pillar-moisture" id="pillarMoistureCard">
+                            <div class="pillar-header">
+                                <span class="pillar-icon">💧</span>
+                                <div>
+                                    <span class="pillar-category">Pillar 1</span>
+                                    <h4>Soil Moisture</h4>
+                                </div>
+                            </div>
+                            <div class="pillar-main-val">
+                                <span class="status-chip" id="moistureStatusChip">MODERATE</span>
+                            </div>
+                            <div class="confidence-section">
+                                <div class="conf-labels">
+                                    <span>Model Confidence</span>
+                                    <strong id="moistureConfidenceVal">96.5%</strong>
+                                </div>
+                                <div class="confidence-bar-container">
+                                    <div class="confidence-bar-fill" id="confidenceBar"></div>
+                                </div>
+                            </div>
+                            <p class="pillar-detail-text" id="moistureNote">Optimal root-zone moisture level for active crop uptake.</p>
+                        </div>
+
+                        <!-- Pillar 2: Soil Type -->
+                        <div class="pillar-card pillar-soiltype" id="pillarSoilTypeCard">
+                            <div class="pillar-header">
+                                <span class="pillar-icon">🌍</span>
+                                <div>
+                                    <span class="pillar-category">Pillar 2</span>
+                                    <h4>Soil Classification</h4>
+                                </div>
+                            </div>
+                            <div class="pillar-main-val">
+                                <span class="soiltype-chip" id="soilTypeChip">Loamy Soil</span>
+                            </div>
+                            <p class="pillar-detail-text" id="soilTypeDesc">
+                                Balanced silt, sand, and clay mix with optimal porosity and natural nutrient holding capacity.
+                            </p>
+                        </div>
+
+                        <!-- Pillar 3: Soil Health & Quality -->
+                        <div class="pillar-card pillar-health" id="pillarHealthCard">
+                            <div class="pillar-header">
+                                <span class="pillar-icon">🌱</span>
+                                <div>
+                                    <span class="pillar-category">Pillar 3</span>
+                                    <h4>Soil Health Status</h4>
+                                </div>
+                            </div>
+                            <div class="pillar-main-val">
+                                <span class="health-chip" id="healthStatusChip">Good Condition</span>
+                            </div>
+                            <p class="pillar-detail-text" id="healthSummaryText">
+                                Favorable aggregation with active organic matter and balanced water-air balance.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <!-- Key Visual Soil Indicators -->
+                    <div class="indicators-card" id="indicatorsCard">
+                        <h4>🔍 Detected Visual Soil Indicators</h4>
+                        <ul class="indicators-list" id="indicatorsList">
+                            <!-- Populated dynamically -->
+                        </ul>
+                    </div>
+
+                    <!-- Recommended Crops Section -->
+                    <div class="crops-recommendation-card" id="cropsCard">
+                        <div class="crops-header">
+                            <span class="crops-icon">🌾</span>
+                            <div>
+                                <h4>Optimal Suited Crops</h4>
+                                <p>Crops best suited to this soil type and current moisture profile:</p>
+                            </div>
+                        </div>
+                        <div class="crops-chips-wrapper" id="cropChipsContainer">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Agronomic Guidance & Irrigation Advice -->
+                    <div class="advice-box" id="adviceBox">
+                        <div class="advice-section-item">
+                            <h4 id="adviceTitle">💧 Recommended Irrigation Action</h4>
+                            <p id="adviceText">Guidelines based on your soil moisture will appear here.</p>
+                        </div>
+                        <div class="advice-divider"></div>
+                        <div class="advice-section-item">
+                            <h4>🌿 Soil Amendment & Fertility Plan</h4>
+                            <p id="amendmentText">Recommended organic compost and fertilizer guidance will appear here.</p>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="result-actions">
+                        <a href="profile.html" class="btn btn-secondary btn-sm">
+                            View in Farmer Profile
+                        </a>
+                        <button id="resetBtn" class="btn btn-outline btn-sm">
+                            Analyze Another Image
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Agricultural Guide Cards -->
+            <div class="guide-grid">
+                <div class="guide-card">
+                    <span class="guide-icon">☀️</span>
+                    <h4>Dry Moisture</h4>
+                    <p>Low capillary moisture. Roots encounter hydraulic resistance. Immediate drip irrigation or light mulching recommended.</p>
+                </div>
+                <div class="guide-card">
+                    <span class="guide-icon">🌱</span>
+                    <h4>Moderate Moisture</h4>
+                    <p>Field capacity equilibrium. Ideal aeration and aerobic microbial nutrient turnover. No irrigation needed today.</p>
+                </div>
+                <div class="guide-card">
+                    <span class="guide-icon">💧</span>
+                    <h4>Wet Moisture</h4>
+                    <p>Near saturation. High risk of root hypoxia and pathogen activity. Ensure clear drainage furrows and pause watering.</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="app-footer">
+        <p>© 2026 SoilSight — Precision Soil Moisture, Soil Type & Soil Health AI. Empowering sustainable agriculture.</p>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -3,3 +3,5 @@ tensorflow
 pillow
 numpy
 flask-cors
+google-genai
+python-dotenv

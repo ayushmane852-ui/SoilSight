@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Profile & Diagnostic Dashboard | SoilSight</title>
+    <meta name="description" content="Manage your farm profile, track soil moisture, soil type, and soil health history.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dashboard-body">
+
+    <!-- Top Navigation Bar -->
+    <header class="app-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🌱</span>
+                <span class="logo-text">Soil<span>Sight</span></span>
+            </a>
+            <div class="header-right">
+                <div class="farmer-pill">
+                    <span class="farmer-avatar">👨‍🌾</span>
+                    <span id="navFarmerName">Loading...</span>
+                </div>
+                <button id="logoutBtn" class="btn btn-outline btn-sm">Log Out</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="dashboard-main">
+        <div class="dashboard-container">
+            
+            <!-- Welcome Header -->
+            <div class="dashboard-welcome">
+                <div class="welcome-text">
+                    <div class="badge-tag">🌾 Farmer Dashboard</div>
+                    <h1 id="welcomeHeading">Welcome, Farmer!</h1>
+                    <p class="welcome-sub">Manage your farm profile, track soil moisture history, and run AI diagnostic tests.</p>
+                </div>
+                <div class="welcome-action">
+                    <a href="analysis.html" class="btn btn-primary btn-lg pulse-btn" id="topAnalyzeBtn">
+                        <span class="btn-icon">🌱</span> Run Soil Diagnostic
+                    </a>
+                </div>
+            </div>
+
+            <!-- Farmer Profile Details Card -->
+            <div class="profile-hero-card">
+                <div class="profile-avatar-col">
+                    <div class="profile-avatar-circle">
+                        <span>👨‍🌾</span>
+                    </div>
+                    <span class="status-indicator">Verified Farmer</span>
+                </div>
+                <div class="profile-info-col">
+                    <div class="profile-name-row">
+                        <h2 id="profileName">Farmer Name</h2>
+                        <span class="crop-badge" id="profileCrops">Crops</span>
+                    </div>
+                    
+                    <div class="profile-meta-grid">
+                        <div class="meta-item">
+                            <span class="meta-label">📍 Farm Location</span>
+                            <span class="meta-value" id="profileLocation">Loading...</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">🚜 Farm Size</span>
+                            <span class="meta-value" id="profileSize">Loading...</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">📱 Contact ID</span>
+                            <span class="meta-value" id="profileContact">Loading...</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">🗓️ Member Since</span>
+                            <span class="meta-value" id="profileJoined">Today</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRIMARY ACTION CARD: ANALYSE YOUR SOIL -->
+            <div class="cta-analysis-banner">
+                <div class="cta-content">
+                    <div class="cta-badge">🌟 Multimodal AI Diagnostics</div>
+                    <h2>Analyse Your Field Soil</h2>
+                    <p>
+                        Upload a photo of your field soil. Our high-accuracy AI model evaluates <strong>Moisture Level</strong>, classifies <strong>Soil Type</strong>, and rates <strong>Soil Health</strong> (Good / Moderate / Poor) with smart crop recommendations.
+                    </p>
+                    <div class="cta-perks">
+                        <span>⚡ Instant Result</span>
+                        <span>🎯 High AI Accuracy</span>
+                        <span>🌍 Soil Type & Health</span>
+                        <span>🌾 Crop Guidance</span>
+                    </div>
+                </div>
+                <div class="cta-btn-wrapper">
+                    <a href="analysis.html" class="btn btn-cta">
+                        <span class="btn-icon">🌱</span> Run Full Diagnostic Now →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Dashboard Stats Row -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper bg-green-light">🧪</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="statTotalTests">0</div>
+                        <div class="stat-label">Total Diagnostic Tests</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper bg-blue-light">💧</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="statLatestStatus">None yet</div>
+                        <div class="stat-label">Latest Moisture & Type</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper bg-amber-light">🌾</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="statFieldHealth">Good (85%)</div>
+                        <div class="stat-label">Average Soil Health Index</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Soil Test History Section -->
+            <div class="history-section">
+                <div class="section-header">
+                    <div>
+                        <h3>Recent Soil Diagnostic History</h3>
+                        <p>Track your past soil tests, moisture trends, soil types, and health records across your farm</p>
+                    </div>
+                    <a href="analysis.html" class="btn btn-outline btn-sm">+ New Diagnostic</a>
+                </div>
+
+                <div id="historyTableContainer" class="history-table-wrapper">
+                    <div class="empty-history" id="emptyHistory">
+                        <div class="empty-icon">🌱</div>
+                        <h4>No soil diagnostics recorded yet</h4>
+                        <p>Click "Run Soil Diagnostic" to upload your first field image and test moisture, soil type, and health levels.</p>
+                        <a href="analysis.html" class="btn btn-primary btn-sm">Start First Soil Test</a>
+                    </div>
+
+                    <table class="history-table" id="historyTable" style="display: none;">
+                        <thead>
+                            <tr>
+                                <th>Date & Time</th>
+                                <th>Moisture Level</th>
+                                <th>Soil Type</th>
+                                <th>Soil Health</th>
+                                <th>Recommended Crops & Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTableBody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Agronomy & Water Management Guide -->
+            <div class="agronomy-guide-section">
+                <h3>💡 Smart Soil & Water Management for Farmers</h3>
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <span class="tip-icon">💧</span>
+                        <h4>Precision Irrigation</h4>
+                        <p>When soil is Dry, apply water through drip tubes at the root zone to save up to 50% water compared to flood irrigation.</p>
+                    </div>
+                    <div class="tip-card">
+                        <span class="tip-icon">🍂</span>
+                        <h4>Organic Mulching</h4>
+                        <p>Spread straw or crop residue across the soil bed. This prevents moisture evaporation in hot weather and nourishes soil microbes.</p>
+                    </div>
+                    <div class="tip-card">
+                        <span class="tip-icon">🚜</span>
+                        <h4>Soil Aeration & Drainage</h4>
+                        <p>When soil is Wet or Clayey, maintain clean drainage furrows. Aeration stimulates aerobic bacteria and prevents root rot.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="app-footer">
+        <p>© 2026 SoilSight — Precision Soil Moisture, Type & Health Diagnostics. Helping farmers cultivate with AI precision.</p>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async function() {
+            // Check authentication
+            const farmer = requireAuth("login.html");
+            if (!farmer) return;
+
+            // Populate Farmer Details
+            document.getElementById("navFarmerName").textContent = farmer.name;
+            document.getElementById("welcomeHeading").textContent = `Welcome, ${farmer.name}! 🌾`;
+            document.getElementById("profileName").textContent = farmer.name;
+            document.getElementById("profileLocation").textContent = farmer.location || "Local Farm";
+            document.getElementById("profileSize").textContent = farmer.farm_size || "Standard Acreage";
+            document.getElementById("profileContact").textContent = farmer.email || farmer.phone;
+            document.getElementById("profileCrops").textContent = "🌾 " + (farmer.crops || "Field Crops");
+
+            if (farmer.created_at) {
+                try {
+                    const dateObj = new Date(farmer.created_at);
+                    document.getElementById("profileJoined").textContent = dateObj.toLocaleDateString(undefined, {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric"
+                    });
+                } catch(e) {}
+            }
+
+            // Handle Logout
+            document.getElementById("logoutBtn").addEventListener("click", function() {
+                if (confirm("Are you sure you want to log out of your farmer account?")) {
+                    logoutFarmer();
+                }
+            });
+
+            // Load History
+            await loadFarmerDashboardHistory(farmer.email);
+        });
+
+        async function loadFarmerDashboardHistory(email) {
+            const history = await getFarmerHistory(email);
+            const totalTestsEl = document.getElementById("statTotalTests");
+            const latestStatusEl = document.getElementById("statLatestStatus");
+            const statFieldHealth = document.getElementById("statFieldHealth");
+            const emptyHistory = document.getElementById("emptyHistory");
+            const historyTable = document.getElementById("historyTable");
+            const historyTableBody = document.getElementById("historyTableBody");
+
+            if (!history || history.length === 0) {
+                totalTestsEl.textContent = "0";
+                latestStatusEl.textContent = "None yet";
+                statFieldHealth.textContent = "No data yet";
+                emptyHistory.style.display = "block";
+                historyTable.style.display = "none";
+                return;
+            }
+
+            totalTestsEl.textContent = history.length;
+            const latest = history[0];
+            const latestStatusUpper = (latest.status || "Unknown").toUpperCase();
+            const latestSoilType = latest.soil_type || "Soil";
+            latestStatusEl.innerHTML = `<strong>${latestSoilType}</strong> (<span class="badge-${(latest.status || '').toLowerCase()}">${latestStatusUpper}</span>)`;
+
+            // Compute average health score
+            let totalHealthScore = 0;
+            let validScores = 0;
+            history.forEach(h => {
+                if (h.health_score) {
+                    totalHealthScore += Number(h.health_score);
+                    validScores++;
+                }
+            });
+            const avgHealth = validScores > 0 ? Math.round(totalHealthScore / validScores) : 85;
+            let avgRating = "Good";
+            if (avgHealth < 65) avgRating = "Poor";
+            else if (avgHealth < 80) avgRating = "Moderate";
+            statFieldHealth.innerHTML = `<span class="health-text-${avgRating.toLowerCase()}">${avgRating} (${avgHealth}%)</span>`;
+
+            emptyHistory.style.display = "none";
+            historyTable.style.display = "table";
+            historyTableBody.innerHTML = "";
+
+            history.forEach(item => {
+                const tr = document.createElement("tr");
+
+                let dateStr = "Recent";
+                if (item.created_at) {
+                    try {
+                        const d = new Date(item.created_at);
+                        dateStr = d.toLocaleDateString() + " " + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    } catch(e) {}
+                }
+
+                const statusLower = (item.status || "moderate").toLowerCase();
+                const badgeClass = `badge-${statusLower}`;
+                const soilType = item.soil_type || "Loamy Soil";
+                const healthStatus = item.soil_health || "Good";
+                const healthScore = item.health_score || 85;
+                const healthClass = `health-pill-${healthStatus.toLowerCase()}`;
+                const crops = item.crop_recommendations || "Seasonal staples";
+
+                tr.innerHTML = `
+                    <td><strong>${dateStr}</strong></td>
+                    <td>
+                        <span class="status-pill ${badgeClass}">${(item.status || '').toUpperCase()}</span>
+                        <br><small style="color:#666">${Number(item.confidence || 0).toFixed(1)}% conf</small>
+                    </td>
+                    <td><strong>${soilType}</strong></td>
+                    <td>
+                        <span class="health-pill ${healthClass}">${healthStatus} (${healthScore}%)</span>
+                    </td>
+                    <td>
+                        <div style="font-weight:600; color:#1b5e20;">🌾 ${crops}</div>
+                        <small class="guidance-cell">${item.advice || 'Standard field care'}</small>
+                    </td>
+                `;
+                historyTableBody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+</html>

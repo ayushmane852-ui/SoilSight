@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Registration | SoilSight</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="auth-body">
+
+    <!-- Header -->
+    <header class="app-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🌱</span>
+                <span class="logo-text">Soil<span>Sight</span></span>
+            </a>
+            <div class="header-right">
+                <span class="header-hint">Already have an account?</span>
+                <a href="login.html" class="btn btn-outline btn-sm">Log In</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="auth-main">
+        <div class="auth-card-container">
+            <div class="auth-card">
+                
+                <div class="auth-header">
+                    <div class="auth-icon-badge">🌾</div>
+                    <h2>Create Farmer Account</h2>
+                    <p>Join SoilSight to manage your farm soil health and get precision moisture recommendations.</p>
+                </div>
+
+                <div id="authAlert" class="alert-box" style="display: none;"></div>
+
+                <form id="registerForm" class="auth-form">
+                    
+                    <div class="form-group">
+                        <label for="fullName">Full Name / Farmer Name <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">👤</span>
+                            <input type="text" id="fullName" placeholder="e.g. Ramesh Kumar" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email or Mobile Number <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">📱</span>
+                            <input type="text" id="email" placeholder="e.g. farmer@example.com or 9876543210" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-half">
+                            <label for="location">Farm Location / Village <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">📍</span>
+                                <input type="text" id="location" placeholder="e.g. Pune, Maharashtra" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-half">
+                            <label for="farmSize">Farm Size (Acres)</label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">🚜</span>
+                                <select id="farmSize">
+                                    <option value="Less than 2 Acres">Less than 2 Acres</option>
+                                    <option value="2 to 5 Acres" selected>2 to 5 Acres</option>
+                                    <option value="5 to 10 Acres">5 to 10 Acres</option>
+                                    <option value="More than 10 Acres">More than 10 Acres</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="crops">Primary Crops Grown</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🌾</span>
+                            <input type="text" id="crops" placeholder="e.g. Wheat, Rice, Cotton, Sugarcane, Vegetables">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-half">
+                            <label for="password">Create Password <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">🔒</span>
+                                <input type="password" id="password" placeholder="Min 6 characters" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-half">
+                            <label for="confirmPassword">Confirm Password <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <span class="input-icon">🔒</span>
+                                <input type="password" id="confirmPassword" placeholder="Re-enter password" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-terms">
+                        <input type="checkbox" id="terms" required checked>
+                        <label for="terms">I agree to use SoilSight recommendations for agricultural management.</label>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="btn btn-primary btn-block">
+                        <span class="btn-text">Register as Farmer</span>
+                    </button>
+
+                </form>
+
+                <div class="auth-footer-nav">
+                    <p>Already have an account? <a href="login.html"><strong>Log In with your credentials →</strong></a></p>
+                </div>
+
+            </div>
+
+            <!-- Trust Badge Card -->
+            <div class="auth-trust-box">
+                <div class="trust-item">
+                    <span class="trust-icon">🛡️</span>
+                    <div>
+                        <strong>100% Secure & Free</strong>
+                        <p>Built specifically for Indian and global farming communities.</p>
+                    </div>
+                </div>
+                <div class="trust-item">
+                    <span class="trust-icon">⚡</span>
+                    <div>
+                        <strong>Instant Soil Diagnostic</strong>
+                        <p>Deep learning vision model trained on real soil textures.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="app-footer">
+        <p>© 2026 SoilSight — AI Soil Moisture Classification for Farmers.</p>
+    </footer>
+
+    <script src="auth.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById("registerForm");
+            const alertBox = document.getElementById("authAlert");
+            const submitBtn = document.getElementById("submitBtn");
+
+            form.addEventListener("submit", async function(e) {
+                e.preventDefault();
+
+                const name = document.getElementById("fullName").value.trim();
+                const email = document.getElementById("email").value.trim();
+                const location = document.getElementById("location").value.trim();
+                const farm_size = document.getElementById("farmSize").value;
+                const crops = document.getElementById("crops").value.trim();
+                const password = document.getElementById("password").value;
+                const confirmPassword = document.getElementById("confirmPassword").value;
+
+                if (password !== confirmPassword) {
+                    showAlert("Passwords do not match. Please verify.", "error");
+                    return;
+                }
+
+                if (password.length < 6) {
+                    showAlert("Password should be at least 6 characters long.", "error");
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = "<span class='spinner-sm'></span> Creating Account...";
+
+                try {
+                    const result = await registerFarmer({
+                        name,
+                        email,
+                        location,
+                        farm_size,
+                        crops,
+                        password
+                    });
+
+                    if (result.success) {
+                        showAlert("🎉 Account registered successfully! Redirecting to Login...", "success");
+                        setTimeout(() => {
+                            window.location.href = `login.html?registered=true&email=${encodeURIComponent(email)}`;
+                        }, 1200);
+                    } else {
+                        showAlert(result.message || "Registration failed.", "error");
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = "<span class='btn-text'>Register as Farmer</span>";
+                    }
+                } catch (err) {
+                    showAlert("An unexpected error occurred. Please try again.", "error");
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = "<span class='btn-text'>Register as Farmer</span>";
+                }
+            });
+
+            function showAlert(msg, type) {
+                alertBox.textContent = msg;
+                alertBox.className = `alert-box alert-${type}`;
+                alertBox.style.display = "block";
+                alertBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            }
+        });
+    </script>
+</body>
+</html>
