@@ -41,37 +41,241 @@
 
             <div class="analysis-header-row">
                 <div>
-                    <div class="analysis-header-badge">✨ Multimodal Precision AI</div>
-                    <h1>🌱 Complete Soil Diagnostic</h1>
-                    <p class="subtitle">Upload a field soil photo to instantly analyze <strong>Moisture Level</strong>, <strong>Soil Type</strong>, and <strong>Soil Health</strong> (Good / Moderate / Poor) with crop recommendations.</p>
+                    <div class="analysis-header-badge">✨ Augmented Reality & Multimodal AI</div>
+                    <h1>🌱 Smart Soil Diagnostic & AR Live Lens</h1>
+                    <p class="subtitle">Point your camera for <strong>Real-Time AR Live Soil Detection (Google Lens Mode)</strong> with instant onscreen info, or upload an image to analyze <strong>Moisture Level</strong>, <strong>Soil Type</strong>, and <strong>Soil Health</strong> with crop and irrigation guidance.</p>
                 </div>
             </div>
 
-            <!-- Upload Box -->
-            <div class="upload-box" id="analysisCard">
-                <!-- Dropzone / File Picker -->
-                <div class="dropzone" id="dropzone">
-                    <div class="dropzone-icon">📷</div>
-                    <label for="imageInput" class="custom-file-label">
-                        <span>Click to choose photo</span> or drag & drop here
-                    </label>
-                    <p class="dropzone-hint">Clear natural light photo of your field soil (JPG, PNG, WEBP)</p>
-                    <input type="file" id="imageInput" accept="image/*">
-                </div>
-
-                <div id="previewContainer" style="display: none;">
-                    <div class="preview-wrapper">
-                        <img id="preview" alt="Soil preview">
-                        <button id="changeImageBtn" class="change-img-btn" type="button" title="Change photo">Change Photo ↺</button>
-                    </div>
-                </div>
-
-                <div class="button-group">
-                    <button id="analyzeBtn" class="btn btn-primary btn-lg" disabled>
-                        <span class="btn-text">🔬 Run Full Soil Diagnostic</span>
+            <!-- Main Diagnostic & AR Scanner Card -->
+            <div class="upload-box ar-scanner-card" id="analysisCard">
+                
+                <!-- Mode Switcher Tabs: AR Live Camera vs Upload Image -->
+                <div class="analysis-mode-tabs" role="tablist">
+                    <button type="button" class="mode-tab active" id="tabArCamera" role="tab" aria-selected="true">
+                        <span class="mode-tab-icon">🥽</span>
+                        <div class="mode-tab-text">
+                            <span class="mode-tab-title">AR Live Camera</span>
+                            <span class="mode-tab-sub">Google Lens Style Detection</span>
+                        </div>
+                        <span class="mode-tab-badge">LIVE AR</span>
+                    </button>
+                    <button type="button" class="mode-tab" id="tabUpload" role="tab" aria-selected="false">
+                        <span class="mode-tab-icon">📁</span>
+                        <div class="mode-tab-text">
+                            <span class="mode-tab-title">Upload Photo</span>
+                            <span class="mode-tab-sub">Device Image / Drag & Drop</span>
+                        </div>
                     </button>
                 </div>
 
+                <!-- ======================================================== -->
+                <!-- SECTION 1: AR LIVE CAMERA VIEWPORT (GOOGLE LENS EXPERIENCE) -->
+                <!-- ======================================================== -->
+                <div id="arCameraSection" class="ar-camera-container">
+                    
+                    <!-- Top HUD Controls -->
+                    <div class="ar-top-controls">
+                        <div class="ar-status-badge" id="arStatusBadge">
+                            <span class="ar-pulse-dot"></span>
+                            <span id="arStatusText">AR LENS ACTIVE • SCANNING</span>
+                        </div>
+                        <div class="ar-tool-actions">
+                            <button type="button" class="ar-tool-btn" id="flipCameraBtn" title="Switch between back and front camera">
+                                <span>🔄 Flip Camera</span>
+                            </button>
+                            <button type="button" class="ar-tool-btn" id="toggleTorchBtn" title="Toggle Flashlight / Torch" style="display: none;">
+                                <span>⚡ Torch</span>
+                            </button>
+                            <button type="button" class="ar-tool-btn" id="pauseArBtn" title="Pause or Resume live video scan">
+                                <span id="pauseArBtnText">⏸️ Pause Scan</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Camera Viewfinder -->
+                    <div class="ar-viewfinder" id="arViewfinder">
+                        <video id="arVideo" autoplay playsinline muted></video>
+                        <canvas id="arCanvas" style="display: none;"></canvas>
+                        
+                        <!-- Shutter Flash Effect -->
+                        <div class="ar-shutter-flash" id="arShutterFlash"></div>
+
+                        <!-- AR Reticle / Soil Framing Brackets -->
+                        <div class="ar-reticle" id="arReticle">
+                            <div class="ar-reticle-corner top-left"></div>
+                            <div class="ar-reticle-corner top-right"></div>
+                            <div class="ar-reticle-corner bottom-left"></div>
+                            <div class="ar-reticle-corner bottom-right"></div>
+                            
+                            <!-- Continuous Laser Scan Sweep Beam -->
+                            <div class="ar-scan-laser" id="arScanLaser"></div>
+                            
+                            <!-- Center Focus Target -->
+                            <div class="ar-reticle-center-guide">
+                                <div class="ar-crosshair-circle"></div>
+                                <span class="ar-guide-text">Align Field Soil Here</span>
+                            </div>
+                        </div>
+
+                        <!-- GOOGLE LENS FLOATING AR OVERLAY CARD -->
+                        <div class="ar-lens-overlay" id="arLensOverlay" style="display: none;">
+                            <div class="ar-lens-pointer"></div>
+                            <div class="ar-lens-card">
+                                <div class="ar-lens-header">
+                                    <div class="ar-lens-soil-type">
+                                        <span class="ar-lens-icon">🌱</span>
+                                        <strong id="arSoilType">Loamy Soil</strong>
+                                    </div>
+                                    <span class="ar-lens-moisture-tag" id="arMoistureTag">OPTIMAL MOISTURE</span>
+                                </div>
+                                
+                                <div class="ar-lens-metrics">
+                                    <div class="ar-lens-metric-item">
+                                        <span class="metric-label">Model Confidence</span>
+                                        <strong id="arConfidenceVal">96.5%</strong>
+                                    </div>
+                                    <div class="ar-lens-metric-item">
+                                        <span class="metric-label">Health Index</span>
+                                        <strong id="arHealthScoreVal">88 / 100</strong>
+                                    </div>
+                                    <div class="ar-lens-metric-item">
+                                        <span class="metric-label">Health Status</span>
+                                        <strong id="arHealthStatusVal">Good</strong>
+                                    </div>
+                                </div>
+
+                                <div class="ar-lens-guidance" id="arGuidanceBox">
+                                    <span class="guidance-icon">💡</span>
+                                    <span id="arGuidanceText">Optimal field capacity • No watering needed today</span>
+                                </div>
+
+                                <div class="ar-lens-indicators-row" id="arIndicatorsRow">
+                                    <!-- Dynamic chips -->
+                                </div>
+
+                                <div class="ar-lens-tap-hint">
+                                    <span>📸 Tap capture shutter below for comprehensive field diagnostic report</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AR Searching Prompt (When no soil in view) -->
+                        <div class="ar-searching-pill" id="arSearchingPill">
+                            <span class="ar-search-radar"></span>
+                            <span id="arSearchingText">🔍 Point camera at natural field soil to detect live info...</span>
+                        </div>
+
+                        <!-- Camera Permission / Error Fallback Box -->
+                        <div class="ar-camera-fallback" id="arCameraFallback" style="display: none;">
+                            <div class="fallback-icon">📷</div>
+                            <h3>Live Camera Access Needed</h3>
+                            <p id="arFallbackMsg">Please allow camera permissions in your browser or switch to upload mode.</p>
+                            <div class="fallback-btn-group">
+                                <button type="button" class="btn btn-primary btn-sm" id="retryCameraBtn">Grant Camera Permission</button>
+                                <button type="button" class="btn btn-secondary-outline btn-sm" id="testSampleSoilBtn">🧪 Try With Sample Field Soil</button>
+                                <button type="button" class="btn btn-outline btn-sm" id="fallbackUploadBtn">📁 Upload Soil Photo Instead</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Shutter Controls Bar -->
+                    <div class="ar-shutter-bar">
+                        <div class="shutter-wrapper">
+                            <button type="button" class="ar-shutter-btn" id="arCaptureBtn" title="Capture high-resolution photo and generate full field report">
+                                <div class="shutter-outer-ring">
+                                    <div class="shutter-inner-core">
+                                        <span class="shutter-camera-icon">📸</span>
+                                    </div>
+                                </div>
+                            </button>
+                            <span class="shutter-caption">Capture & Full Report</span>
+                        </div>
+
+                        <div class="ar-secondary-controls">
+                            <button type="button" class="ar-sub-action-btn" id="testSoilSamplesBtn" title="Test with verified dry, moderate, or wet field soil feeds">
+                                <span class="sub-btn-icon">🌾</span>
+                                <span>Try Sample Soil Feeds</span>
+                            </button>
+                            <button type="button" class="ar-sub-action-btn" id="switchToUploadBtn">
+                                <span class="sub-btn-icon">📁</span>
+                                <span>Upload File Instead</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ======================================================== -->
+                <!-- SECTION 2: UPLOAD IMAGE FILE SECTION -->
+                <!-- ======================================================== -->
+                <div id="uploadSection" class="upload-section-container" style="display: none;">
+                    
+                    <!-- Missing Image Alert Banner -->
+                    <div id="uploadNotice" class="upload-notice-alert" style="display: none;">
+                        <span class="notice-icon">⚠️</span>
+                        <span id="uploadNoticeText">Please select or upload a soil image first before running the diagnostic.</span>
+                    </div>
+
+                    <!-- Dropzone / File Picker (Visible when no photo chosen) -->
+                    <div class="dropzone" id="dropzone">
+                        <div class="dropzone-icon">📷</div>
+                        <label for="imageInput" class="custom-file-label">
+                            <span>Click to choose soil photo</span> or drag & drop here
+                        </label>
+                        <p class="dropzone-hint">Clear natural light photo of your field soil (JPG, PNG, WEBP)</p>
+                        <input type="file" id="imageInput" accept="image/*">
+                    </div>
+
+                    <!-- Uploaded Image Preview (Visible once photo is chosen) -->
+                    <div id="uploadPreviewCard" class="upload-preview-card" style="display: none;">
+                        <div class="preview-wrapper">
+                            <div class="preview-tag" id="uploadFileTag">📁 Selected Soil Sample</div>
+                            <img id="uploadPreviewImg" alt="Selected Soil Preview">
+                            <div class="preview-btn-overlay">
+                                <button id="changeUploadedPhotoBtn" class="change-img-btn" type="button" title="Select a different photo">
+                                    Change Photo ↺
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Primary Action Button: NEVER disappears! -->
+                    <div class="button-group upload-btn-group" id="uploadActionGroup">
+                        <button id="analyzeBtn" class="btn btn-primary btn-lg" type="button">
+                            <span class="btn-text">🔬 Run Full Soil Diagnostic</span>
+                        </button>
+                    </div>
+
+                    <div class="upload-camera-prompt">
+                        <span>or use your camera live in your field:</span>
+                        <button type="button" class="btn btn-outline btn-sm" id="uploadToCameraBtn">
+                            🥽 Open AR Live Camera (Google Lens)
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- ======================================================== -->
+                <!-- SHARED PREVIEW CONTAINER (FOR AR CAMERA SNAPSHOTS) -->
+                <!-- ======================================================== -->
+                <div id="previewContainer" style="display: none;">
+                    <div class="preview-wrapper">
+                        <div class="preview-tag" id="previewSourceTag">📸 Captured Field Sample</div>
+                        <img id="preview" alt="Soil preview">
+                        <div class="preview-btn-overlay">
+                            <button id="returnToArBtn" class="change-img-btn" type="button" title="Back to AR Live Camera">
+                                🥽 AR Live Camera ↺
+                            </button>
+                            <button id="changeImageBtn" class="change-img-btn" type="button" title="Choose another image">
+                                Upload Photo ↺
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shared Processing Spinner -->
                 <div id="loading" style="display: none;">
                     <div class="spinner"></div>
                     <div class="loading-copy">
@@ -201,6 +405,9 @@
 
                     <!-- Action Buttons -->
                     <div class="result-actions">
+                        <button id="reopenArBtn" class="btn btn-primary btn-sm">
+                            🥽 Scan Again with Live AR Camera
+                        </button>
                         <a href="profile.html" class="btn btn-secondary btn-sm">
                             View in Farmer Profile
                         </a>

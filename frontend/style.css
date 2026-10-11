@@ -2255,3 +2255,806 @@ input[type="file"] {
 .health-text-moderate { color: #f57f17; font-weight: 700; }
 .health-text-poor { color: #c62828; font-weight: 700; }
 
+/* ============================================================
+   Augmented Reality (AR) Live Camera & Google Lens HUD Styles
+   ============================================================ */
+
+.ar-scanner-card {
+    padding: 24px;
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(46, 125, 50, 0.15);
+    margin-bottom: 36px;
+    overflow: hidden;
+}
+
+/* Mode Switcher Tabs */
+.analysis-mode-tabs {
+    display: flex;
+    gap: 12px;
+    background: #f0f5f1;
+    padding: 6px;
+    border-radius: 14px;
+    margin-bottom: 24px;
+}
+
+.mode-tab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 18px;
+    border: none;
+    background: transparent;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+}
+
+.mode-tab:hover {
+    color: var(--primary-color);
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.mode-tab.active {
+    background: #ffffff;
+    color: var(--primary-color);
+    box-shadow: 0 3px 12px rgba(27, 94, 32, 0.12);
+}
+
+.mode-tab-icon {
+    font-size: 20px;
+}
+
+.mode-tab-text {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.mode-tab-title {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.mode-tab-sub {
+    font-size: 11px;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.mode-tab-badge {
+    background: linear-gradient(135deg, #2e7d32, #43a047);
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-left: 4px;
+    box-shadow: 0 0 10px rgba(67, 160, 71, 0.4);
+    animation: badgePulse 2s infinite ease-in-out;
+}
+
+@keyframes badgePulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.06); opacity: 0.9; }
+}
+
+/* AR Viewfinder Container */
+.ar-camera-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ar-top-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.ar-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(27, 94, 32, 0.08);
+    border: 1px solid #2e7d32;
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--primary-color);
+    letter-spacing: 0.4px;
+    transition: var(--transition);
+}
+
+.ar-pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #00e676;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #00e676;
+    animation: pulseDot 1.4s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.4); opacity: 0.4; }
+}
+
+.ar-tool-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.ar-tool-btn {
+    background: #f0f5f1;
+    border: 1px solid #d7e3d8;
+    color: var(--text-primary);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ar-tool-btn:hover {
+    background: #e0ece1;
+    border-color: #2e7d32;
+    color: var(--primary-color);
+}
+
+.ar-tool-btn.torch-active {
+    background: #fff8e1;
+    border-color: #ffb300;
+    color: #f57f17;
+    box-shadow: 0 0 10px rgba(255, 179, 0, 0.4);
+}
+
+.ar-tool-btn.ar-btn-paused {
+    background: #fff3e0;
+    border-color: #ff9800;
+    color: #e65100;
+}
+
+/* Viewfinder Viewport */
+.ar-viewfinder {
+    position: relative;
+    width: 100%;
+    min-height: 480px;
+    max-height: 580px;
+    height: 60vh;
+    background: #0f1712;
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6);
+}
+
+.ar-viewfinder video,
+.sim-display-canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Shutter Flash Animation */
+.ar-shutter-flash {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #ffffff;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+    transition: opacity 0.2s ease-out;
+}
+
+.ar-shutter-flash.flash-active {
+    opacity: 0.95;
+    transition: none;
+}
+
+/* AR Reticle (Target Framing Box) */
+.ar-reticle {
+    position: absolute;
+    width: min(320px, 75vw);
+    height: min(320px, 75vw);
+    pointer-events: none;
+    z-index: 10;
+    --ar-accent: #00e676;
+    transition: all 0.3s ease;
+}
+
+.ar-reticle-corner {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-color: var(--ar-accent);
+    border-style: solid;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.ar-reticle-corner.top-left {
+    top: 0;
+    left: 0;
+    border-width: 4px 0 0 4px;
+    border-top-left-radius: 8px;
+}
+
+.ar-reticle-corner.top-right {
+    top: 0;
+    right: 0;
+    border-width: 4px 4px 0 0;
+    border-top-right-radius: 8px;
+}
+
+.ar-reticle-corner.bottom-left {
+    bottom: 0;
+    left: 0;
+    border-width: 0 0 4px 4px;
+    border-bottom-left-radius: 8px;
+}
+
+.ar-reticle-corner.bottom-right {
+    bottom: 0;
+    right: 0;
+    border-width: 0 4px 4px 0;
+    border-bottom-right-radius: 8px;
+}
+
+/* Animated Laser Scan Beam */
+.ar-scan-laser {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--ar-accent) 50%, transparent 100%);
+    box-shadow: 0 0 14px var(--ar-accent), 0 0 28px var(--ar-accent);
+    animation: arLaserScan 2.6s infinite ease-in-out;
+}
+
+@keyframes arLaserScan {
+    0% { top: 4%; opacity: 0.2; }
+    15% { opacity: 0.9; }
+    50% { top: 96%; opacity: 0.9; }
+    85% { opacity: 0.9; }
+    100% { top: 4%; opacity: 0.2; }
+}
+
+.ar-reticle-center-guide {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.65;
+}
+
+.ar-crosshair-circle {
+    width: 14px;
+    height: 14px;
+    border: 1.5px dashed var(--ar-accent);
+    border-radius: 50%;
+}
+
+.ar-guide-text {
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* ============================================================
+   Google Lens Floating AR Overlay Card
+   ============================================================ */
+
+.ar-lens-overlay {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(440px, 92%);
+    z-index: 25;
+    flex-direction: column;
+    align-items: center;
+    animation: arLensPopIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: auto;
+}
+
+@keyframes arLensPopIn {
+    0% { opacity: 0; transform: translate(-50%, -15px) scale(0.95); }
+    100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+
+.ar-lens-card {
+    width: 100%;
+    background: rgba(16, 26, 18, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1.5px solid rgba(0, 230, 118, 0.6);
+    border-radius: 16px;
+    padding: 16px 18px;
+    color: #ffffff;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45), 0 0 20px rgba(0, 230, 118, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ar-lens-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    padding-bottom: 8px;
+}
+
+.ar-lens-soil-type {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.ar-lens-icon {
+    font-size: 18px;
+}
+
+.ar-lens-moisture-tag {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    color: #ffffff;
+    text-transform: uppercase;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.ar-lens-moisture-tag.tag-dry {
+    background: #e65100;
+}
+
+.ar-lens-moisture-tag.tag-moderate {
+    background: #2e7d32;
+}
+
+.ar-lens-moisture-tag.tag-wet {
+    background: #0277bd;
+}
+
+/* Metrics Row */
+.ar-lens-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 10px;
+    border-radius: 10px;
+}
+
+.ar-lens-metric-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.ar-lens-metric-item .metric-label {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.ar-lens-metric-item strong {
+    font-size: 13px;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+/* Quick Guidance Pill inside AR Card */
+.ar-lens-guidance {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    background: rgba(0, 230, 118, 0.12);
+    border: 1px solid rgba(0, 230, 118, 0.35);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #e0f2f1;
+}
+
+.ar-lens-guidance .guidance-icon {
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.ar-lens-indicators-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.ar-chip {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    color: #c8e6c9;
+    font-weight: 600;
+}
+
+.ar-lens-tap-hint {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 6px;
+    font-weight: 500;
+}
+
+/* Searching Pill (When camera points away from soil) */
+.ar-searching-pill {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(20, 30, 22, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 30px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    z-index: 20;
+    white-space: nowrap;
+}
+
+.ar-search-radar {
+    width: 10px;
+    height: 10px;
+    border: 2px solid #00e676;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spinRadar 1s linear infinite;
+}
+
+@keyframes spinRadar {
+    to { transform: rotate(360deg); }
+}
+
+/* Camera Fallback Box */
+.ar-camera-fallback {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(18, 28, 20, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    text-align: center;
+    z-index: 30;
+    color: #ffffff;
+}
+
+.fallback-icon {
+    font-size: 42px;
+    margin-bottom: 12px;
+}
+
+.ar-camera-fallback h3 {
+    color: #ffffff;
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.ar-camera-fallback p {
+    color: #b0bec5;
+    font-size: 13px;
+    max-width: 440px;
+    margin-bottom: 20px;
+}
+
+.fallback-btn-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Shutter Controls Bar */
+.ar-shutter-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding-top: 8px;
+}
+
+.shutter-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.ar-shutter-btn {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s ease;
+    padding: 0;
+}
+
+.ar-shutter-btn:active {
+    transform: scale(0.92);
+}
+
+.shutter-outer-ring {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    border: 4px solid #2e7d32;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(46, 125, 50, 0.08);
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 18px rgba(46, 125, 50, 0.25);
+}
+
+.ar-shutter-btn:hover .shutter-outer-ring {
+    border-color: #1b5e20;
+    box-shadow: 0 6px 24px rgba(46, 125, 50, 0.4);
+    transform: scale(1.04);
+}
+
+.shutter-inner-core {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+.shutter-camera-icon {
+    font-size: 26px;
+    color: #ffffff;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.shutter-caption {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.ar-secondary-controls {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.ar-sub-action-btn {
+    background: #f0f5f1;
+    border: 1px solid #d7e3d8;
+    color: var(--text-primary);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ar-sub-action-btn:hover {
+    background: #e0ece1;
+    border-color: #2e7d32;
+    color: var(--primary-color);
+}
+
+.sub-btn-icon {
+    font-size: 15px;
+}
+
+/* Upload Section & Alternative Camera Prompt */
+.upload-section-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.upload-camera-prompt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px;
+    background: #f7faf7;
+    border-radius: 10px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.upload-btn-group {
+    margin-top: 8px;
+}
+
+/* Preview Image Overlay */
+.preview-tag {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(16, 26, 18, 0.85);
+    color: #ffffff;
+    backdrop-filter: blur(8px);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 5;
+}
+
+.preview-btn-overlay {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    justify-content: center;
+}
+
+/* Missing Image Warning Alert */
+.upload-notice-alert {
+    background: #fff3e0;
+    border: 1.5px solid #ff9800;
+    border-radius: 12px;
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #b75300;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(255, 152, 0, 0.15);
+    animation: shakeAlert 0.4s ease-in-out;
+}
+
+@keyframes shakeAlert {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+}
+
+.upload-notice-alert .notice-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.dropzone-highlight-error {
+    border-color: #f44336 !important;
+    background-color: #fff8f8 !important;
+    box-shadow: 0 0 16px rgba(244, 67, 54, 0.3) !important;
+    transition: all 0.3s ease;
+}
+
+/* Upload Preview Card */
+.upload-preview-card {
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.upload-preview-card .preview-wrapper {
+    position: relative;
+    max-width: 520px;
+    margin: 0 auto;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+    border: 2px solid #2e7d32;
+    background: #000000;
+}
+
+.upload-preview-card img {
+    width: 100%;
+    max-height: 380px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Responsive Rules for AR Screen */
+@media (max-width: 768px) {
+    .ar-scanner-card {
+        padding: 16px;
+    }
+    
+    .ar-viewfinder {
+        min-height: 420px;
+        height: 65vh;
+    }
+
+    .ar-lens-overlay {
+        width: 95%;
+        top: 10px;
+    }
+
+    .ar-lens-card {
+        padding: 12px 14px;
+        gap: 8px;
+    }
+
+    .ar-lens-metrics {
+        grid-template-columns: repeat(3, 1fr);
+        padding: 6px 8px;
+    }
+
+    .ar-lens-metric-item strong {
+        font-size: 12px;
+    }
+
+    .mode-tab {
+        padding: 10px 12px;
+    }
+
+    .mode-tab-title {
+        font-size: 13px;
+    }
+
+    .mode-tab-sub {
+        display: none;
+    }
+}
+
+
